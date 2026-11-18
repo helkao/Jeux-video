@@ -10,6 +10,7 @@
         color: white;
         font-family: sans-serif;
         text-align: center;
+        transition: background 0.5s ease;
       }
       .etagere {
         display: flex;
@@ -227,5 +228,15 @@
           <h2>Super Smash Bros</h2>
         </div>
       </div>
+    <script>
+      const cartes = document.querySelectorAll(".jeu");
+
+      cartes.forEach(function(carte){
+        carte.addEventListener("click";function(){
+          const couleur = carte.style.getPropertyValue("--couleur");
+          document.body.style.background = couleur;
+        });
+      });
+    </script>
   </body>
 </html>

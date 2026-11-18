@@ -20,30 +20,55 @@
         padding: 80px 40px;
       }
       .jeu{
+        position: relative;
         flex: 0 0 auto;
         width: 140px;
         height: 200px;
-        border-radius: 6px;
-        Background: var(--couleur, #555);
-        margin-right: -80px;
-        transform: rotateY(-65deg);
-        transition: transform 0.5s ease, margin 0.5s ease, box-shadow 0.5s ease;;
+        margin-right: -110px;
+        transform-style: preserve-3d;
+        transform: rotateY(65deg);
+        transition: transform 0.5s ease, margin 0.5s ease, box-shadow 0.5s ease;
         cursor: pointer;
       }
-      .jeu h2 {
-        display: none;
-        font-size: 15px;
-        padding: 8px;
-        text-shadow: 0 0 4px black;
+      .jeu::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 4px;
+        transform: translateZ(13px);
+        background:
+          var(--img,linear-gradient(transparent, transparent)) center / cover no-repeat,
+          var(--couleur, #555);
+        box-shadow: inset 6px 0 8px rgba(0,0,0,0.4);
       }
+    
       .jeu.actif{
-        transform: rotateY(0deg) scale(1.25);
-        margin: 0 10px 0 70px;
+        transform: rotateY(20deg) scale(1.25);
+        margin: 0 20px 0 60px;
         box-shadow: 0 0 60px var(--couleur);
         z-index: 2;
       }
-      .jeu.actif h2{
-        display: block;
+      .jeu h2{
+        position: absolute;
+        top: 0;
+        left: -13px;
+        width: 26px;
+        height: 100%;
+        margin: 0;
+        box-sizing: border-box;
+        padding-top: 8px;
+        transform: rotateY(-90deg);
+        background:
+          linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+          var(--couleur, #555);
+        wrinting-mode: vertical-rl;
+        text-align: strat;
+        line-height: 26px;
+        font-size: 11px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-shadow: 0 0 3px black;
       }
       #titre {
         text-shadow: 0 0 6px black;
@@ -55,7 +80,7 @@
       <p> les jeux auquels j'ai joué </p>
 
       <div class="etagere">
-        <div class="jeu" style="--couleur: #F8FF00;">
+        <div class="jeu" style="--couleur: #F8FF00; --img: url">
           <h2>Cyberpunk 2077</h2>
         </div>
         <div class="jeu" style="--couleur: #8AF2FF;">

@@ -232,7 +232,7 @@
       const cartes = document.querySelectorAll(".jeu");
 
       cartes.forEach(function(carte){
-        carte.addEventListener("click";function(){
+        carte.addEventListener("click",function(){
           const couleur = carte.style.getPropertyValue("--couleur");
           document.body.style.background = couleur;
         });

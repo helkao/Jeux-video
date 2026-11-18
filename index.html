@@ -249,7 +249,7 @@
 
       cartes.forEach(function(carte){
         carte.addEventListener("click",function(){
-          carte.forEach(function(c){
+          cartes.forEach(function(c){
             c.classList.remove("actif");
           });
           carte.classList.add("actif");

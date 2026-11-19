@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Mon nuancier de jeux </title>
     <style>
+      :root {
+        --tranche: #1a1a1a;
+      }
       body {
         background: #111;
         color: white;
@@ -49,27 +52,29 @@
         z-index: 2;
       }
       .jeu h2{
-        position: absolute;
-        top: 0;
-        left: -13px;
-        width: 26px;
-        height: 100%;
-        margin: 0;
-        box-sizing: border-box;
-        padding-top: 8px;
-        transform: rotateY(-90deg);
-        background:
-          linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
-          var(--couleur, #555);
-        wrinting-mode: vertical-rl;
-        text-align: strat;
-        line-height: 26px;
-        font-size: 11px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        text-shadow: 0 0 3px black;
-      }
+        .jeu h2 {
+          position: absolute;
+          top: 0;
+          left: -13px;
+          width: 26px;
+          height: 100%;
+          margin: 0;
+          box-sizing: border-box;
+          padding-top: 10px;
+          transform: rotateY(-90deg);
+          background: var(--tranche);
+          color: white;
+          -webkit-writing-mode: vertical-rl;
+          writing-mode: vertical-rl;
+          text-align: start;
+          line-height: 26px;
+          font-size: 11px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-family: var(--police, sans-serif);
+        }
+    
       #titre {
         text-shadow: 0 0 6px black;
       }  

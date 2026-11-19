@@ -6,7 +6,7 @@
     <title> Mon nuancier de jeux </title>
     <style>
       :root {
-        --tranche: #1a1a1a;
+        --tranche: #d62828;
       }
       body {
         background: #111;
@@ -51,29 +51,42 @@
         box-shadow: 0 0 60px var(--couleur);
         z-index: 2;
       }
-      .jeu h2{
-        .jeu h2 {
-          position: absolute;
-          top: 0;
-          left: -13px;
-          width: 26px;
-          height: 100%;
-          margin: 0;
-          box-sizing: border-box;
-          padding-top: 10px;
-          transform: rotateY(-90deg);
-          background: var(--tranche);
-          color: white;
-          -webkit-writing-mode: vertical-rl;
-          writing-mode: vertical-rl;
-          text-align: start;
-          line-height: 26px;
-          font-size: 11px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          font-family: var(--police, sans-serif);
-        }
+      .jeu h2 {
+        position: absolute;
+        top: 0;
+        left: -13px;
+        width: 26px;
+        height: 100%;
+        margin: 0;
+        box-sizing: border-box;
+        padding: 36px 0;
+        transform: rotateY(-90deg);
+        background: linear-gradient(
+          var(--tranche) 0 30px,
+          #fff 30px calc(100% - 30px),
+          var(--tranche) calc(100% - 30px)
+        );
+        color: #111;
+        -webkit-writing-mode: vertical-rl;
+        writing-mode: vertical-rl;
+        text-align: center;
+        line-height: 26px;
+        font-size: 11px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-family: var(--police, sans-serif);
+      }
+      
+      .jeu h2::after {
+        content: "";
+        position: absolute;
+        top: 30px;
+        bottom: 30px;
+        left: 0;
+        right: 0;
+        background: var(--logo) center / contain no-repeat, #fff;
+      }
     
       #titre {
         text-shadow: 0 0 6px black;

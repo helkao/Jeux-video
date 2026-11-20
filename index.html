@@ -390,30 +390,7 @@
         titre.textContent = centre.querySelector("h2").textContent;
       }
 
-      let doigt= false;
-      let minuteur=null;
-
-      function recaler(){
-        if (doigt) return;
-        const cible= positionCentree(trouverCentre());
-        if (Math.abs(cible- etagere.scrollLeft) > 1){
-          etagere.scrollTo({left: cible, behavior: "smooth"});
-        }
-      }
-      function planifierRecalage() {
-        clearTimeout(minuteur);
-        minuteur = setTimeout(recaler, 120);
-      }
-
-      etagere.addEventListener("scroll", function(){
-        majEtat();
-        planifierRecalage();
-      }, {passive: true});
-      etagere.addEventListener("touchestart",function(){doigt= true;},{passive: true});
-      etagere.addEventListener("touchend", function() {
-        doigt= false;
-        planifierRecalage();
-      }, {passive: true});
+      etagere.addEventListener("scroll", majEtat, {passive: true});
       window.addEventListener("resize", majEtat);
 
       cartes.forEach(function (carte) {

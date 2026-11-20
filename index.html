@@ -353,6 +353,12 @@
         return meilleur;
       }
 
+      function fondOuvert(carte) {
+        const perso = carte.style.getPropertyValue("--fond-ouvert").trim();
+        if (perso) return perso;
+        return "color-mix(in srgb, " + carte.style.getPropertyValue("--couleur") + " 35%, black)";
+      }
+
       function fermer(){
         if (!ouvert) return;
         ouvert.classList.remove("ouvert");
@@ -414,8 +420,7 @@
               ouvert=carte;
               carte.classList.add("ouvert");
               etagere.classList.add("ouverte");
-              document.body.style.background=
-                "color-mix(in srgb, " + carte.style.getPropertyValue("--couleur") + "35%, black)";
+              document.body.style.background= fondOuvert(carte);
             }
             return;
           }

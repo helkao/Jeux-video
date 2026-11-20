@@ -20,7 +20,7 @@
         align-items:center;
         overflow-x: auto;
         perspective: 1000px;
-        padding: 80px calc(50vw - 40px);
+        padding: 80px calc(50% - 40px);
         scroll-snap-type: x mandatory;
       }
       .jeu{
@@ -34,6 +34,9 @@
         transition: transform 0.5s ease, margin 0.5s ease, box-shadow 0.5s ease;
         cursor: pointer;
         scroll-snap-align:center;
+      }
+      .jeu:last-child{
+        margin-right:0;
       }
       .jeu::before {
         content: "";

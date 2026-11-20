@@ -21,7 +21,7 @@
         align-items:center;
         overflow-x: auto;
         perspective: 1000px;
-        padding: 80px calc(50% - 40px);
+        padding: 80px calc(50% - 70px);
         --ecart: 70px;
       }
       .etagere.ouverte{ --ecart:200px;}
@@ -38,7 +38,7 @@
         cursor: pointer;
       }
       .jeu:last-child{ margin-right:0; }
-      .jeu.gauche{ --decalage: clac(var(--ecart)* -1);}
+      .jeu.gauche{ --decalage: calc(var(--ecart)* -1);}
       .jeu.droite{ --decalage: var(--ecart);}
       
       .jeu::before {
@@ -49,7 +49,7 @@
         transform: translateZ(12px);
         background:
           radial-gradient(circle at 50% 45%, #eee 0 40px, #999 41px 44px, transparent 45px),
-          #1b1b1b;;
+          #1b1b1b;
         box-shadow: inset 6px 0 8px rgba(0,0,0,0.4);
       }
     
@@ -59,9 +59,9 @@
         z-index: 2;
       }
       .jeu.ouvert{
-        tranform: translateX(88px) rotateY(0deg) scale(1.25);
+        transform: translateX(88px) rotateY(0deg) scale(1.25);
       }
-      couv{
+      .couv{
         position: absolute;
         inset: 0;
         transform-origin: left center;
@@ -79,14 +79,14 @@
       }
       .couv::before{
         background:
-          var(--img, linear-gradient(transparent,transparent))center / no-repeat,
+          var(--img, linear-gradient(transparent, transparent)) center / cover no-repeat,
           var(--couleur,#555);
-        box-shadow: inset 6px 0 8px rgba(0,0,0,0,4);
+        box-shadow: inset 6px 0 8px rgba(0,0,0,0.4);
       }
       .couv::after{
         transform: rotateY(180deg);
         background: #eee;
-        box-shadow: inset -6px 0 8px rgba(0,0,0,0,2);
+        box-shadow: inset -6px 0 8px rgba(0,0,0,0.2);
       }
       .jeu.ouvert .couv{
         transform: translateZ(13px) rotateY(-165deg);
@@ -347,7 +347,7 @@
         let meilleur= null;
         let distMin= Infinity;
         cartes.forEach(function(c){
-          const d = Math.abs(c.ooffsetLeft + c.offsetWidth / 2 - milieu);
+          const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - milieu);
           if (d< distMin){ distMin = d; meilleur= c;}
         });
         return meilleur;
@@ -357,7 +357,7 @@
         if (!ouvert) return;
         ouvert.classList.remove("ouvert");
         ouvert = null;
-        etagere.classList.remove("ouverture");
+        etagere.classList.remove("ouverte");
       }
 
       function majEtat(){
@@ -367,7 +367,7 @@
         fermer();
         centre = nouveau;
 
-        consti = cartes.indexOf(centre);
+        const i = cartes.indexOf(centre);
         cartes.forEach(function (c,j){
           c.classList.toggle("actif", j === i);
           c.classList.toggle("gauche", j<i);
@@ -381,7 +381,7 @@
       let doigt= false;
       let minuteur=null;
 
-      funstion recaler(){
+      function recaler(){
         if (doigt) return;
         const cible= positionCentree(trouverCentre());
         if (Math.abs(cible- etagere.scrollLeft) > 1){
@@ -397,11 +397,11 @@
         majEtat();
         planifierRecalage();
       }, {passive: true});
-      etagere.addEventListener("touchestrat",function(){doigth= true;},{passive: true});
+      etagere.addEventListener("touchestart",function(){doigt= true;},{passive: true});
       etagere.addEventListener("touchend", function() {
         doigt= false;
         planifierRecalage();
-      }, {passivel: true});
+      }, {passive: true});
       window.addEventListener("resize", majEtat);
 
       cartes.forEach(function (carte) {

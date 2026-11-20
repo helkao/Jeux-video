@@ -9,6 +9,8 @@
         --tranche: #d62828;
       }
       body {
+        min-height: 100vh;
+        margin: 0;
         background: #111;
         color: white;
         font-family: sans-serif;
@@ -366,6 +368,7 @@
         etagere.classList.remove("ouverte");
         if (centre){ 
           document.body.style.background = centre.style.getPropertyValue("--couleur");
+          document.body.style.backgroundAttachment= "";
         }
       }
 
@@ -421,6 +424,7 @@
               carte.classList.add("ouvert");
               etagere.classList.add("ouverte");
               document.body.style.background= fondOuvert(carte);
+              document.bofy.style.backgroundAttachement= "fixed";
             }
             return;
           }

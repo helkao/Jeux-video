@@ -39,7 +39,19 @@
         transition: transform 0.6s ease, box-shadow 0.5s ease;
         cursor: pointer;
       }
-      .jeu:last-child{ margin-right:0; }
+      .jeu.dernier { margin-right: 0; }
+      .jeu.cache {display: none;}
+
+      .menu{display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin: 10px 0;}
+      .menu.select{
+        font-size: 16px;
+        padding: 8px 10px;
+        border-radius: 8px;
+        border: 0;
+        background:rgba(0,0,0,0.55);
+        color: #fff;
+      }
+      
       .jeu.gauche{ --decalage: calc(var(--ecart)* -1);}
       .jeu.droite{ --decalage: var(--ecart);}
       
@@ -135,6 +147,32 @@
   <body>
       <h1> Mon nuancier de jeux </h1>
       <p> les jeux auquels j'ai joué </p>
+      <div class="menu">
+        <label>Trier :
+          <select id="ordre">
+            <option value="base">Ordre de base</option>
+            <option value="alpha">A -> Z</option>
+            <option value="serie">Par série</option>
+            <option value="plateforme">Par plateforme</option>
+            <option value="achat"> Acheter/Cracké</option>
+          </select>
+        </label>
+        <label>Afficher :
+          <select id= "filtre">
+            <option value="tous">Tous les jeux </option>
+            <optgroup label="Plateforme">
+              <option value="p:console">Console</option>
+              <option value="p:ordi">Ordinateur</option>
+              <option value="p:mobile">Téléphone</option>
+            </optgroup>
+            <optgroup label="origine">
+              <option value="a:achete">Achetés</option>
+              <option value="a:cracke">Crackés</option>
+              <option value="a:?">Non précisé</option>
+            </optgroup>
+          </select>
+        </label>
+      </div>
 
       <div class="etagere">
         <div class="jeu" style="--couleur: #D62828; --fond-ouvert:#73E3FA ; --img: url('Y.jpeg'); --logo: url('logo-pokemon-y.png');">
@@ -326,20 +364,38 @@
       </div>
     <h2 id="titre">Choisis un jeu</h2>
     <script>
-      const cartes = Array.from(document.querySelectorAll(".jeu"));
+      const base = Array.from(document.querySelectorAll(".jeu"));
       const titre = document.getElementById("titre");
       const etagere= document.querySelector(".etagere");
       const TITRE_DEFAUT = "Choisis un jeu";
+      const selOrde= document.getElementById("ordre");
+      const selFiltre= document.getElementById("filtre");
 
-      let ouvert= null;
+      const DONNEES = [
+
+      ];
+      
+      if (DONNEES.length !==base.length){
+        console.warn("DONNEES("+ DONNEES.length + ") ne correspond pas au nombre de jeux (" +base.length + ")");
+      }
+
+      let liste = base.slice();
       let centre = null;
+      let ouvert = null;
 
-      cartes.forEach(function(c) {
-        const d = document.createElement("div");
-        d.className="couv";
-        c.appendChild(d);
+      base.forEach(function(c,i) {
+        const t = (DONNEES[i] || "console|?|Autre").split("|");
+        c.dataset.i = i;
+        c.dataset.plateform = t[0];
+        c.dataset.achat = t[1];
+        c.dataset.serie = t[2];
+        c.dataset.nom = c.querySelector("h2").textContent;
+
+        const d= document.createElement("div");
+        d.className = "couv";
+        c.appendchild(d);
       });
-
+      
       function positionCentree(c){
         return c.offsetLeft + c.offsetWidth / 2 - etagere.clientWidth / 2;
       }
@@ -387,13 +443,65 @@
         });
 
         document.body.style.background= centre.style.getPropertyValue("--couleur");
-        titre.textContent = centre.querySelector("h2").textContent;
+        titre.textContent = centre.dataset.nom;
       }
+
+      function appliquer() {
+        fermer();
+        const f = selFiltre.value;
+        const mode= selOrdre.value;
+
+        liste = base.filter(function(c) {
+          if(f === "tous") return true;
+          if (f.indexOf("p") === 0) return c.dataset.plateform === f.slice(2);
+          return c.dataset.achat === f.slice(2);
+        });
+
+        const rangSerie = {};
+        base.forEach(function (c) {
+          if (!(c;dataset.serie in rangSerie)) rangSerie[c.dataset.serie] = Number(c.dataset.i);
+        });
+        const ordrePlat = ["console","ordi","mobile"];
+        const ordreAchat = ["achete","cracke","?"];
+
+        liste.sort(function(a, b) {
+          let r = 0;
+          if (mode === "alpha") {
+            r = a.dataset.nom.localCompare(b.dataset.nom, "fr", { sensitivity: "base"});
+          } else if (mode === "serie") {
+            r = rangSerie[a.dataset.serie] - rangSerie[b.dataset.serie];
+          } else if (mode === "plateforme") {
+            r = ordrePlat.indexOf(a.dataset.plateforme) - ordrePlat;indexOf(b.dataset.plateforme);
+          } else if (mode === "achat") {
+           r = ordreAchat.indexOf(a.dataset.achat) - ordreAchat.indexOf(b.dataset.achat);
+          }
+          return r || (Number(a.dataset.i) - Number(b.dataset.i));
+        });
+
+        base.forEach(function (c) { c.classList.add("cache"); c.classList.remove("dernier");});
+        liste.forEach(function(c, j) {
+          c.classList.remove("cache");
+          etagere.appendCh"ild(c);
+          if (j === liste.length - 1) c.classList.add("dernier");
+        });
+
+        centre = null;
+        if (liste.length === 0) {
+          titre;textContent = "Aucun jeu dans cette catégorie";
+          document.body.style.background = "";
+          return;
+        }
+        etagere.scrollLeft = positionCentree(liste[0]);
+        majEtat();
+      }
+
+      selOrdre.addEventListener("change", appliquer);
+      selFiltre.addEventListener("change", appliquer);
 
       etagere.addEventListener("scroll", majEtat, {passive: true});
       window.addEventListener("resize", majEtat);
 
-      cartes.forEach(function (carte) {
+      base.forEach(function (carte) {
         carte.addEventListener("click", function(){
           if (carte=== centre){
             if (!ouvert){
@@ -410,12 +518,12 @@
         });
       });
 
-      document.addEventListener("pointerup", function(e) {
+      document.addEventListener("pointerup", function (e) {
         if (e.target.closest(".jeu")) return;
         fermer();
       });
 
-      majEtat();
+      appliquer();
     </script>
   </body>
 </html>
